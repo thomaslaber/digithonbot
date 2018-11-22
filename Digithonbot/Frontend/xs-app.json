@@ -1,0 +1,21 @@
+{
+  "welcomeFile": "/Frontend/index.html",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "source": "^/Frontend/(.*)$",
+      "target": "$1",
+      "localDir": "webapp"
+    }, 
+    {
+		"source": "^/BotServer/(.*)$",
+		"destination": "botserver_destination",
+		"target": "$1",
+        "csrfProtection": false,
+        "authenticationType": "none"
+	}
+  ]
+}

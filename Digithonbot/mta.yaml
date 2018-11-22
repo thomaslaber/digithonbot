@@ -1,0 +1,43 @@
+ID: Digithonbot
+_schema-version: '2.1'
+version: 0.0.1
+modules:
+  - name: BotServer
+    type: nodejs
+    path: BotServer
+    provides:
+      - name: BotServer_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: uaa_Digithonbot
+  - name: Frontend
+    type: html5
+    path: Frontend
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    build-parameters:
+      builder: grunt
+    requires:
+      - name: uaa_Digithonbot
+      - name: dest_Digithonbot
+      - name: BotServer
+      - name: BotServer_api
+        group: destinations
+        properties:
+          name: botserver_destination
+          url: '~{url}'
+          forwardAuthToken: true
+resources:
+  - name: uaa_Digithonbot
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+  - name: dest_Digithonbot
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
